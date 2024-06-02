@@ -9,7 +9,7 @@ type Props = {}
 const Navbar = async (props: Props) => {
   const user = await currentUser()
   return (
-    <header className="fixed right-0 left-0 top-0 py-4 px-4 backdrop-blur-lg z-[100] flex items-center justify-between">
+    <header className="fixed right-0 left-0 top-0 py-4 px-4 bg-white/90 backdrop-blur-lg z-[100] flex items-center justify-between">
       <aside className="flex items-center gap-[2px]">
         <Image
           src="/logo-text.png"
