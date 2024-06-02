@@ -1,9 +1,37 @@
 "use client"
 
 import { ContainerScroll } from "../global/container-scroll-animation";
-import { Button } from "../ui/button";
+import { motion } from "framer-motion";
 
 export default function HeroSection() {
+    const underlineVariants = {
+        initial: { borderBottomColor: "black" },
+        animate: {
+            borderBottomColor: ["#FF0000", "#FFD700", "#1E90FF", "#800080"],
+            transition: {
+                duration: 4,
+                repeat: Infinity,
+                repeatType: "loop"
+            }
+        }
+    };
+
+    const MotionText = ({ children }: { children: React.ReactNode }) => (
+        <motion.span
+            initial="initial"
+            animate="animate"
+            /* @ts-ignore */
+            variants={underlineVariants}
+            style={{
+                borderBottom: "10px dotted",
+                display: "inline-block",
+                paddingBottom: "0.1rem",
+            }}
+        >
+            {children}
+        </motion.span>
+    );
+
     return (
         <section className="h-screen w-full rounded-md !overflow-visible relative flex flex-col items-center antialiased">
             <div className="absolute inset-0 h-full w-full items-center px-5 py-24"></div>
@@ -12,13 +40,13 @@ export default function HeroSection() {
                     titleComponent={
                         <>
                             <h1 className="text-4xl font-semibold text-black dark:text-white">
-                                Stop
-                                <span className="text-red-500 dark:red-400">{" losing "}</span>
+                                Stop{" "}
+                                <MotionText>losing</MotionText>{" "}
                                 customers <br />
                                 <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
-                                    <span className="text-yellow-500 dark:yellow-400">with</span>
-                                    <span className="text-blue-600 dark:text-blue-400"> smart</span>
-                                    <span className="text-purple-600 dark:text-purple-400"> workflows</span>
+                                    <MotionText>with</MotionText>{" "}
+                                    <MotionText>smart</MotionText>{" "}
+                                    <MotionText>workflows</MotionText>
                                 </span>
                             </h1>
                             <p className="mt-4 mb-8 text-xl text-black">
