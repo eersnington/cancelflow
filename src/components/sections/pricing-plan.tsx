@@ -12,7 +12,7 @@ import { pricingDetails } from "@/lib/constant";
 
 export default function PricingPlan() {
     return (
-        <section className="mt-4">
+        <section className="mt-4" id="pricing">
             <motion.h1
                 initial={{ opacity: 0.5, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
