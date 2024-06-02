@@ -50,6 +50,50 @@ export const pricingDetails = [
   }
 ];
 
+export const faqData = [
+  {
+    id: "item-1",
+    question: "Is the free plan completely free?",
+    answer: "Yes, our free plan is completely free with no monthly or annual charges. It's a great way to get started and explore our features, limited to one form and 50 entries."
+  },
+  {
+    id: "item-2",
+    question: "What are Customizable Workflows?",
+    answer: "Customizable Workflows allow you to tailor cancellation workflows to address specific reasons customers unsubscribe. Use our drag-and-drop builder to create engaging forms with conditional logic."
+  },
+  {
+    id: "item-3",
+    question: "What do Automated Actions do?",
+    answer: "Automated Actions trigger targeted responses based on customer feedback. You can offer discounts, suggest features, or gather detailed insights automatically, helping to retain your customers."
+  },
+  {
+    id: "item-4",
+    question: "What insights can I gain from the Analytics Dashboard?",
+    answer: "The Analytics Dashboard lets you monitor and analyze churn data, understand the reasons behind cancellations, and make informed decisions to improve customer retention."
+  },
+  {
+    id: "item-5",
+    question: "Are there limits on form entries in the paid plans?",
+    answer: "No, both the Pro and Business plans offer unlimited form entries, allowing you to handle a large volume of customer interactions without restrictions."
+  },
+  {
+    id: "item-6",
+    question: "Can I upgrade my plan later?",
+    answer: "Yes, you can upgrade your plan at any time to access more forms and additional features as your business grows."
+  },
+  {
+    id: "item-7",
+    question: "How many forms can I create with each plan?",
+    answer: "The Starter plan allows for 1 form, the Pro plan allows up to 5 forms, and the Business plan allows for unlimited forms."
+  },
+  {
+    id: "item-8",
+    question: "Do I need technical skills to create workflows?",
+    answer: "No, our drag-and-drop builder makes it easy to create and customize workflows without any coding or technical skills."
+  }
+];
+
+
 export const products = [
   {
     title: 'Moonbeam',
