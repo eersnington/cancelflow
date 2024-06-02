@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  clerkId      String   @unique
+  name         String?
+  email        String   @unique
+  profileImage String?
+  tier         String   @default("Free")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  workflows     Workflow[]
+  subscriptions Subscription[]
+}
+
+model Workflow {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  nodes       String?
+  edges       String?
+  publish     Boolean? @default(false)
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  planId    Int
+  plan      Plan      @relation(fields: [planId], references: [id])
+  status    String
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Plan {
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      Int
+  formLimit  Int
+  entryLimit Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  subscriptions Subscription[]
+}
