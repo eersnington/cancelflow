@@ -24,11 +24,14 @@ type Props = {
 
 const ProfileForm = ({ user, onUpdate }: Props) => {
   const [isLoading, setIsLoading] = useState(false)
+
+  console.log(user.firstname, user.email)
   const form = useForm<z.infer<typeof EditUserProfileSchema>>({
     mode: 'onChange',
     resolver: zodResolver(EditUserProfileSchema),
     defaultValues: {
-      name: user.name,
+      firstname: user.firstname,
+      lastname: user.lastname,
       email: user.email,
     },
   })
@@ -37,12 +40,12 @@ const ProfileForm = ({ user, onUpdate }: Props) => {
     values: z.infer<typeof EditUserProfileSchema>
   ) => {
     setIsLoading(true)
-    await onUpdate(values.name)
+    await onUpdate(values.firstname, values.lastname)
     setIsLoading(false)
   }
 
   useEffect(() => {
-    form.reset({ name: user.name, email: user.email })
+    form.reset({ firstname: user.firstname, lastname: user.lastname, email: user.email })
   }, [user])
 
   return (
@@ -51,23 +54,42 @@ const ProfileForm = ({ user, onUpdate }: Props) => {
         className="flex flex-col gap-6"
         onSubmit={form.handleSubmit(handleSubmit)}
       >
-        <FormField
-          disabled={isLoading}
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-lg">User full name</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Name"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-4">
+          <FormField
+            disabled={isLoading}
+            control={form.control}
+            name="firstname"
+            render={({ field }) => (
+              <FormItem className="w-1/2">
+                <FormLabel className="text-lg">First Name</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Name"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            disabled={isLoading}
+            control={form.control}
+            name="lastname"
+            render={({ field }) => (
+              <FormItem className="w-1/2">
+                <FormLabel className="text-lg">Last Name</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Name"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="email"
