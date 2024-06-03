@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/tooltip'
 import { menuOptions } from '@/lib/constant'
 import clsx from 'clsx'
+import Image from 'next/image'
 import { Separator } from '@/components/ui/separator'
 import { Database, GitBranch, LucideMousePointerClick } from 'lucide-react'
 import { ModeToggle } from '../global/mode-toggle'
@@ -23,10 +24,10 @@ const MenuOptions = (props: Props) => {
     <nav className=" dark:bg-black h-screen overflow-scroll  justify-between flex items-center flex-col  gap-10 py-6 px-2">
       <div className="flex items-center justify-center flex-col gap-8">
         <Link
-          className="flex font-bold flex-row "
+          className="flex font-bold text-sm flex-row "
           href="/"
         >
-          fuzzie.
+          Cancelflow
         </Link>
         <TooltipProvider>
           {menuOptions.map((menuItem) => (
