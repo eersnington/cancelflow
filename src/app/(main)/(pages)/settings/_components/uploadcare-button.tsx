@@ -12,7 +12,7 @@ LR.registerBlocks(LR)
 const UploadCareButton = ({ onUpload }: Props) => {
   const router = useRouter()
   const ctxProviderRef = useRef<
-    typeof LR.UploadCtxProvider.prototype & LR.UploadCtxProvider
+    typeof LR.UploadCtxProvider.prototype & LR.UploadCtxProvider | null
   >(null)
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const UploadCareButton = ({ onUpload }: Props) => {
         router.refresh()
       }
     }
+    // @ts-ignore
     ctxProviderRef.current.addEventListener('file-upload-success', handleUpload)
   }, [])
 
