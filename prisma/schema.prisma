@@ -20,8 +20,8 @@ model User {
   profileImage String?
   tier         String  @default("Starter")
 
-  formLimit  String @default("10") // Number of forms available
-  entryLimit String @default("50") // Number of entries available
+  formLimit  String @default("1") // Number of forms available
+  entryLimit String @default("50") // Number of submissions available
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
