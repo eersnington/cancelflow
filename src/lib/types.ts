@@ -3,7 +3,8 @@ import { z } from 'zod'
 
 export const EditUserProfileSchema = z.object({
   email: z.string().email('Required'),
-  name: z.string().min(1, 'Required'),
+  firstname: z.string().min(1, 'Required'),
+  lastname: z.string().min(1, 'Required'),
 })
 
 export const WorkflowFormSchema = z.object({
@@ -59,30 +60,30 @@ export type EditorNode = EditorNodeType
 
 export type EditorActions =
   | {
-      type: 'LOAD_DATA'
-      payload: {
-        elements: EditorNode[]
-        edges: {
-          id: string
-          source: string
-          target: string
-        }[]
-      }
+    type: 'LOAD_DATA'
+    payload: {
+      elements: EditorNode[]
+      edges: {
+        id: string
+        source: string
+        target: string
+      }[]
     }
+  }
   | {
-      type: 'UPDATE_NODE'
-      payload: {
-        elements: EditorNode[]
-      }
+    type: 'UPDATE_NODE'
+    payload: {
+      elements: EditorNode[]
     }
+  }
   | { type: 'REDO' }
   | { type: 'UNDO' }
   | {
-      type: 'SELECTED_ELEMENT'
-      payload: {
-        element: EditorNode
-      }
+    type: 'SELECTED_ELEMENT'
+    payload: {
+      element: EditorNode
     }
+  }
 
 export const nodeMapper: Record<string, string> = {
   Notion: 'notionNode',
