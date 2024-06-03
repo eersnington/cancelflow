@@ -27,12 +27,12 @@ const Billing = async (props: Props) => {
         },
         data: {
           tier: session.data[0].description,
-          credits:
+          formLimit:
             session.data[0].description == 'Unlimited'
               ? 'Unlimited'
               : session.data[0].description == 'Pro'
-              ? '100'
-              : '10',
+                ? '100'
+                : '10',
         },
       })
     }
