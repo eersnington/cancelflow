@@ -78,7 +78,7 @@ const Workflowform = ({ subTitle, title }: Props) => {
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="Name"
+                      placeholder="Name of Website"
                     />
                   </FormControl>
                   <FormMessage />
@@ -94,7 +94,7 @@ const Workflowform = ({ subTitle, title }: Props) => {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Description"
+                      placeholder="A short description of the website"
                       {...field}
                     />
                   </FormControl>
