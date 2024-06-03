@@ -13,7 +13,7 @@ export const onPaymentDetails = async () => {
       },
       select: {
         tier: true,
-        credits: true,
+        formLimit: true,
       },
     })
 
