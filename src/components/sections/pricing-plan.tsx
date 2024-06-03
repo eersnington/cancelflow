@@ -21,10 +21,10 @@ export default function PricingPlan() {
                     duration: 0.8,
                     ease: 'easeInOut',
                 }}
-                className="mt-20 mb-20 bg-gradient-to-br from-neutral-700 to-black py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+                className="mt-20 mb-20 text-black dark:text-white py-4 text-center text-4xl font-medium tracking-tight md:text-7xl"
             >
                 Choose a plan that works for best you
-                <p className="text-xl font-normal mt-4">
+                <p className="text-xl font-normal mt-4 tracking-normal">
                     These plans are billed monthly. You can cancel anytime.
                 </p>
             </motion.h1>
@@ -49,7 +49,7 @@ export default function PricingPlan() {
                             </ul>
                         </CardContent>
                         <CardFooter className="flex justify-center items-center mt-8">
-                            <button className="px-4 py-2 rounded-xl bg-green-700 dark:bg-white dark:text-black text-white text-base font-bold">
+                            <button className="px-4 py-2 rounded-xl bg-green-700 text-white text-base font-bold">
                                 Get Started Now
                                 <span className="ml-2">→</span>
                             </button>
