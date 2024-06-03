@@ -8,7 +8,7 @@ export const onCreateNodesEdges = async (
   edges: string,
   flowPath: string
 ) => {
-  const flow = await db.workflows.update({
+  const flow = await db.workflow.update({
     where: {
       id: flowId,
     },
@@ -24,7 +24,7 @@ export const onCreateNodesEdges = async (
 
 export const onFlowPublish = async (workflowId: string, state: boolean) => {
   console.log(state)
-  const published = await db.workflows.update({
+  const published = await db.workflow.update({
     where: {
       id: workflowId,
     },
