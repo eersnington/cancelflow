@@ -24,7 +24,7 @@ const InfoBar = (props: Props) => {
     const response = await onPaymentDetails()
     if (response) {
       setTier(response.tier!)
-      setCredits(response.credits!)
+      setCredits(response.formLimit!)
     }
   }
 
@@ -35,12 +35,12 @@ const InfoBar = (props: Props) => {
   return (
     <div className="flex flex-row justify-end gap-6 items-center px-4 py-4 w-full dark:bg-black ">
       <span className="flex items-center gap-2 font-bold">
-        <p className="text-sm font-light text-gray-300">Credits</p>
+        <p className="text-sm font-light text-black">Workflows Limit</p>
         {tier == 'Unlimited' ? (
           <span>Unlimited</span>
         ) : (
           <span>
-            {credits}/{tier == 'Free' ? '10' : tier == 'Pro' && '100'}
+            {credits}/{tier == 'Starter' ? '10' : tier == 'Plus' ? '100' : tier == 'Business' && 'Unlimited'}
           </span>
         )}
       </span>
