@@ -1,5 +1,3 @@
-import Category from '@/components/icons/category'
-import Logs from '@/components/icons/clipboard'
 import Templates from '@/components/icons/cloud_download'
 import Home from '@/components/icons/home'
 import Payment from '@/components/icons/payment'
@@ -17,8 +15,8 @@ export const pricingDetails = [
     price: "Free",
     isHighlighted: false,
     features: [
-      "Forms: 1",
-      "50 form entries",
+      "Worflows: 1",
+      "50 form submissions",
       "Customizable Workflows",
       "Automated Actions",
       "Analytics Dashboard "
@@ -29,7 +27,7 @@ export const pricingDetails = [
     price: "$29/month",
     isHighlighted: true,
     features: [
-      "Forms: Up to 10",
+      "Workflows: Up to 10",
       "Unlimited form entries",
       "Customizable Workflows",
       "Automated Actions",
@@ -41,7 +39,7 @@ export const pricingDetails = [
     price: "$49/month",
     isHighlighted: false,
     features: [
-      "Forms: Unlimited",
+      "Workflows: Unlimited",
       "Unlimited form entries",
       "Customizable Workflows",
       "Automated Actions",
