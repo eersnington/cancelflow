@@ -10,8 +10,8 @@ import { BillingProvider } from '@/providers/billing-provider'
 const font = DM_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Fuzzie.',
-  description: 'Automate Your Work With Fuzzie.',
+  title: 'Cancelflow Dashboard',
+  description: 'Get insights into why your customers are canceling and prevent it with cancellation workflows.',
 }
 
 export default function RootLayout({
