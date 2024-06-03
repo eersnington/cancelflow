@@ -39,7 +39,7 @@ const Settings = async (props: Props) => {
     return response
   }
 
-  const updateUserInfo = async (name: string) => {
+  const updateUserInfo = async (first_name: string, last_name: string) => {
     'use server'
 
     const updateUser = await db.user.update({
@@ -47,7 +47,8 @@ const Settings = async (props: Props) => {
         clerkId: authUser.id,
       },
       data: {
-        name,
+        firstname: first_name,
+        lastname: last_name,
       },
     })
     return updateUser
