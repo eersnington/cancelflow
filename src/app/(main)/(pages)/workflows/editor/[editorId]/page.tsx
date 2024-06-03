@@ -4,8 +4,11 @@ import React from 'react'
 import EditorCanvas from './_components/editor-canvas'
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from 'next/navigation'
+import { db } from '@/lib/db';
 
-type Props = {}
+type Props = {
+  editorId: string
+}
 
 const Page = (props: Props) => {
 
@@ -14,8 +17,6 @@ const Page = (props: Props) => {
   if (userId) {
     console.log('userId', userId);
   }
-
-  console.log(props);
 
   return (
     <div className="h-full">
