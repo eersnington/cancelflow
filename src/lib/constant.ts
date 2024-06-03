@@ -28,7 +28,7 @@ export const pricingDetails = [
     isHighlighted: true,
     features: [
       "Workflows: Up to 10",
-      "Unlimited form entries",
+      "Unlimited form submissions",
       "Customizable Workflows",
       "Automated Actions",
       "Analytics Dashboard"
@@ -40,7 +40,7 @@ export const pricingDetails = [
     isHighlighted: false,
     features: [
       "Workflows: Unlimited",
-      "Unlimited form entries",
+      "Unlimited form submissions",
       "Customizable Workflows",
       "Automated Actions",
       "Analytics Dashboard"
