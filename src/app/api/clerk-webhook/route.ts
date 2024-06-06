@@ -18,6 +18,7 @@ export async function POST(req: Request) {
   const svix_signature = headerPayload.get("svix-signature");
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
+    console.error('Error occured in verifying Clerk webhook');
     return new Response('Error occured -- no svix headers', {
       status: 400
     })
@@ -46,7 +47,7 @@ export async function POST(req: Request) {
     })
   }
 
-  console.log('✅ Webhook verified!')
+  console.log('✅ ClerkAuth Webhook verified!')
 
   try {
     const { id, email_addresses, first_name, last_name, image_url } = payload?.data
