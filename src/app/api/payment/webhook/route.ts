@@ -31,18 +31,21 @@ export async function POST(req: Request) {
         })
     }
 
+    console.log('✅ LemonSqueezy Webhook verified!')
+
     try {
         // Catch the event type
-        const { status } = body.data.attributes;
-
         console.log(body);
-
-        console.log("Event type -", eventType, status)
+        console.log("🍋 Event type -", eventType)
 
         if (eventType === "subscription_created") {
-            const { user_email, product_name, customer_id, product_id, variant_id, first_subscription_item } = body.data.attributes;
+            const { status, user_email, renews_at, product_name, customer_id, product_id, variant_id, first_subscription_item } = body.data.attributes;
 
-            if (product_name === 'Cancelflow  - Plus') {
+            const endDate = new Date(renews_at);
+
+            // update tier limits in User table
+
+            if (product_name === 'Cancelflow - Plus') {
                 await db.user.update({
                     where: {
                         email: user_email,
@@ -50,10 +53,11 @@ export async function POST(req: Request) {
                     data: {
                         tier: "Plus",
                         formLimit: "50",
-                        entryLimit: "Unlimited"
+                        entryLimit: "Unlimited",
+                        tierEndDate: endDate,
                     },
                 });
-            } else if (product_name === 'Cancelflow  - Business') {
+            } else if (product_name === 'Cancelflow - Business') {
 
                 await db.user.update({
                     where: {
@@ -62,16 +66,20 @@ export async function POST(req: Request) {
                     data: {
                         tier: "Business",
                         formLimit: "Unlimited",
-                        entryLimit: "Unlimited"
+                        entryLimit: "Unlimited",
+                        tierEndDate: endDate,
                     },
                 });
             }
+
+            // Create subscription in Subscription table
 
             await db.subscription.upsert({
                 where: {
                     lemonCustomerId: customer_id
                 },
                 update: {
+                    userEmail: user_email,
                     lemonSubscriptionStatus: status,
                     lemonProductId: product_id,
                     lemonVariantId: variant_id,
@@ -83,25 +91,29 @@ export async function POST(req: Request) {
                             email: user_email,
                         },
                     },
+                    userEmail: user_email,
                     lemonCustomerId: customer_id,
                     lemonProductId: product_id,
                     lemonVariantId: variant_id,
                     lemonSubscriptionId: first_subscription_item.subscription_id,
                     lemonSubscriptionStatus: status,
                 },
-
             });
 
-            console.log("Subscription created -", user_email, status)
+            console.log("✅ Subscription created -", user_email)
 
-            return new NextResponse(`${user_email} - plan upgraded in Cancelflow`, {
+            return new NextResponse(`Subscription plan created for ${user_email}!`, {
                 status: 200,
             })
+
         } else if (eventType === "subscription_updated") {
 
             const { user_email } = body.data.attributes;
 
             // Handle subscription updated
+
+
+
             console.log("Subscription updated -", user_email, status)
         } else if (eventType === "subscription_cancelled") {
             // Handle subscription deleted
@@ -114,8 +126,6 @@ export async function POST(req: Request) {
         console.error(err);
         return Response.json({ message: "Server error" }, { status: 500 });
     }
-
-    console.log('✅ LemonSqueezy Webhook verified!')
 
     return new NextResponse('Webhook received', {
         status: 200,
