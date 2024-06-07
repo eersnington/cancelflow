@@ -31,7 +31,7 @@ model User {
 model Subscription {
   id        Int    @id @default(autoincrement())
   userId    String
-  userEmail String @default("example@gmail.com") @map("user_email")
+  userEmail String @unique @map("user_email")
 
   lemonSubscriptionStatus String?
   lemonSubscriptionId     Int?    @unique @map("lemon_subscription_id")
