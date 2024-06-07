@@ -110,10 +110,6 @@ export async function POST(req: Request) {
 
             const { user_email } = body.data.attributes;
 
-            // Handle subscription updated
-
-
-
             console.log("Subscription updated -", user_email, status)
         } else if (eventType === "subscription_cancelled") {
             // Handle subscription deleted
