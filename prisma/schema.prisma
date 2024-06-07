@@ -30,6 +30,18 @@ model User {
   subscriptions Subscription[]
 }
 
+model Subscription {
+  id     Int    @id @default(autoincrement())
+  userId String
+  user   User   @relation(fields: [userId], references: [clerkId])
+
+  lemonCustomerId         Int?    @unique @map(name: "lemon_customer_id")
+  lemonSubscriptionId     Int?    @unique @map(name: "lemon_subscription_id")
+  lemonProductId          Int?    @map(name: "lemon_product_id")
+  lemonVariantId          Int?    @map(name: "lemon_variant_id")
+  lemonSubscriptionStatus String?
+}
+
 model Workflow {
   id          String   @id @default(uuid())
   name        String
@@ -43,15 +55,4 @@ model Workflow {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model Subscription {
-  id                      Int       @id @default(autoincrement())
-  userId                  String
-  user                    User      @relation(fields: [userId], references: [clerkId])
-  lemonCustomerId         String?   @unique @map(name: "lemon_customer_id")
-  lemonSubscriptionId     String?   @unique @map(name: "lemon_subscription_id")
-  lemonVariantId          String?   @map(name: "lemon_variant_id")
-  lemonCurrentPeriodEnd   DateTime? @map(name: "lemon_current_period_end")
-  lemonSubscriptionStatus String?
 }
