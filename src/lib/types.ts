@@ -91,3 +91,24 @@ export const nodeMapper: Record<string, string> = {
   Discord: 'discordNode',
   'Google Drive': 'googleNode',
 }
+
+/*
+
+Payment Actions
+
+*/
+
+export type planUpdateAction = {
+  product_name: string
+  user_email: string
+  subscription_end_date: Date
+}
+
+export type subscriptionUpdateAction = {
+  user_email: string
+  id: string
+  status: string
+  customer_id: number
+  product_id: number
+  variant_id: number
+}
