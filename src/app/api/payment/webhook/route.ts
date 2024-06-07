@@ -4,10 +4,10 @@ import { headers } from 'next/headers';
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-    const WEBHOOK_SECRET = process.env.LEMON_SQUEEZY_WEBHOOK_SECRET;
+    const WEBHOOK_SECRET = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
 
     if (!WEBHOOK_SECRET) {
-        throw new Error("Please add LEMON_SQUEEZY_WEBHOOK_SECRET from Lemon Squeezy Dashboard to your Environment Variables");
+        throw new Error("Please add LEMONSQUEEZY_WEBHOOK_SECRET from Lemon Squeezy Dashboard to your Environment Variables");
     }
 
     const clonedReq = req.clone();
