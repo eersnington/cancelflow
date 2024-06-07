@@ -9,30 +9,37 @@ datasource db {
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  clerkId       String         @unique
-  firstname     String?
-  lastname      String?
-  email         String         @unique
-  profileImage  String?
-  tier          String         @default("Starter")
-  formLimit     String         @default("1")
-  entryLimit    String         @default("50")
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id           Int     @id @default(autoincrement())
+  clerkId      String  @unique
+  firstname    String?
+  lastname     String?
+  email        String  @unique
+  profileImage String?
+
+  tier        String   @default("Starter")
+  tierEndDate DateTime @default(now())
+
+  formLimit  String   @default("1")
+  entryLimit String   @default("50")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
   subscriptions Subscription[]
   workflows     Workflow[]
 }
 
 model Subscription {
-  id                      Int     @id @default(autoincrement())
-  userId                  String
+  id        Int    @id @default(autoincrement())
+  userId    String
+  userEmail String @default("example@gmail.com") @map("user_email")
+
   lemonSubscriptionStatus String?
-  lemonCustomerId         Int?    @unique @map("lemon_customer_id")
   lemonSubscriptionId     Int?    @unique @map("lemon_subscription_id")
+  lemonCustomerId         Int?    @unique @map("lemon_customer_id")
   lemonVariantId          Int?    @map("lemon_variant_id")
   lemonProductId          Int?    @map("lemon_product_id")
-  user                    User    @relation(fields: [userId], references: [clerkId])
+
+  user User @relation(fields: [userId], references: [clerkId])
 }
 
 model Workflow {
