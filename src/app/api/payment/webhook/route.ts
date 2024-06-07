@@ -1,4 +1,4 @@
-import { cancelSubscription, deleteSubscription, updateUserPlan, updateUserSubcription } from "@/actions/paymentActions";
+import { deleteSubscription, updateUserPlan, updateUserSubcription } from "@/actions/paymentActions";
 import { db } from "@/lib/db";
 import crypto from "crypto";
 import { headers } from 'next/headers';
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         })
     }
 
-    console.log('✅ LemonSqueezy Webhook verified!')
+    console.log('🔐 LemonSqueezy Webhook verified!')
 
     try {
         // Catch the event type
@@ -46,14 +46,14 @@ export async function POST(req: Request) {
             const subscription_end_date = new Date(renews_at);
 
             // update tier limits in User table
-            const plan_updated = updateUserPlan({
+            const plan_updated = await updateUserPlan({
                 product_name,
                 user_email,
                 subscription_end_date
             });
 
             // Create subscription in Subscription table
-            const subscription_updated = updateUserSubcription({
+            const subscription_updated = await updateUserSubcription({
                 user_email,
                 id,
                 customer_id,
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
             }
 
             // update tier limits in User table
-            const plan_updated = updateUserPlan({
+            const plan_updated = await updateUserPlan({
                 product_name: product_name,
                 user_email,
                 subscription_end_date
@@ -105,7 +105,7 @@ export async function POST(req: Request) {
             }
 
             // update subscription data in Subscription table
-            const subscription_updated = updateUserSubcription({
+            const subscription_updated = await updateUserSubcription({
                 user_email,
                 id,
                 customer_id,
@@ -145,7 +145,7 @@ export async function POST(req: Request) {
             }
 
             // update tier limits in User table
-            const plan_updated = updateUserPlan({
+            const plan_updated = await updateUserPlan({
                 product_name,
                 user_email,
                 subscription_end_date
@@ -179,7 +179,7 @@ export async function POST(req: Request) {
             }
 
             // update tier limits in User table
-            const plan_updated = updateUserPlan({
+            const plan_updated = await updateUserPlan({
                 product_name,
                 user_email,
                 subscription_end_date
@@ -192,7 +192,7 @@ export async function POST(req: Request) {
             }
 
             // update subscription data in Subscription table
-            const subscription_updated = updateUserSubcription({
+            const subscription_updated = await updateUserSubcription({
                 user_email,
                 id,
                 customer_id,
@@ -214,7 +214,8 @@ export async function POST(req: Request) {
             })
         } else if (eventType === "subscription_cancelled") {
             // Handle subscription cancelled event
-            const { user_email } = body.data.attributes;
+            const { id } = body.data;
+            const { status, user_email, customer_id, product_id, variant_id } = body.data.attributes;
 
             const user = await db.user.findUnique({
                 where: {
@@ -230,7 +231,14 @@ export async function POST(req: Request) {
 
             const subscription_end_date = user.tierEndDate;
 
-            const cancel_subscription = cancelSubscription(user_email);
+            const cancel_subscription = await updateUserSubcription({
+                user_email,
+                id,
+                customer_id,
+                product_id,
+                variant_id,
+                status: "cancelled"
+            });
 
             if (!cancel_subscription) {
                 return new NextResponse(`Error cancelling subscription for ${user_email}`, {
@@ -238,7 +246,7 @@ export async function POST(req: Request) {
                 })
             }
 
-            console.log("Subscription cancelled -", user_email)
+            console.log("✅ Subscription cancelled -", user_email)
 
             return new NextResponse(`Subscription plan cancelled for ${user_email}! Access retained till ${subscription_end_date}`, {
                 status: 200,
@@ -267,7 +275,7 @@ export async function POST(req: Request) {
                 })
             }
 
-            console.log("Subscription expired -", user_email)
+            console.log("✅ Subscription expired -", user_email)
 
             return new NextResponse(`Subscription plan expired for ${user_email}!`, {
                 status: 200,
