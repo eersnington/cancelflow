@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-1.0.x"]
@@ -12,34 +9,30 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  clerkId      String  @unique
-  firstname    String?
-  lastname     String?
-  email        String  @unique
-  profileImage String?
-  tier         String  @default("Starter")
-
-  formLimit  String @default("1") // Number of forms available
-  entryLimit String @default("50") // Number of submissions available
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  workflows     Workflow[]
+  id            Int            @id @default(autoincrement())
+  clerkId       String         @unique
+  firstname     String?
+  lastname      String?
+  email         String         @unique
+  profileImage  String?
+  tier          String         @default("Starter")
+  formLimit     String         @default("1")
+  entryLimit    String         @default("50")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   subscriptions Subscription[]
+  workflows     Workflow[]
 }
 
 model Subscription {
-  id     Int    @id @default(autoincrement())
-  userId String
-  user   User   @relation(fields: [userId], references: [clerkId])
-
-  lemonCustomerId         Int?    @unique @map(name: "lemon_customer_id")
-  lemonSubscriptionId     Int?    @unique @map(name: "lemon_subscription_id")
-  lemonProductId          Int?    @map(name: "lemon_product_id")
-  lemonVariantId          Int?    @map(name: "lemon_variant_id")
+  id                      Int     @id @default(autoincrement())
+  userId                  String
   lemonSubscriptionStatus String?
+  lemonCustomerId         Int?    @unique @map("lemon_customer_id")
+  lemonSubscriptionId     Int?    @unique @map("lemon_subscription_id")
+  lemonVariantId          Int?    @map("lemon_variant_id")
+  lemonProductId          Int?    @map("lemon_product_id")
+  user                    User    @relation(fields: [userId], references: [clerkId])
 }
 
 model Workflow {
@@ -48,11 +41,10 @@ model Workflow {
   description String
   nodes       String?
   edges       String?
-  flowPath    String?
   publish     Boolean? @default(false)
   userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  flowPath    String?
   user        User     @relation(fields: [userId], references: [clerkId])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
