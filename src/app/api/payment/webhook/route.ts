@@ -1,3 +1,4 @@
+import { cancelSubscription, deleteSubscription, updateUserPlan, updateUserSubcription } from "@/actions/paymentActions";
 import { db } from "@/lib/db";
 import crypto from "crypto";
 import { headers } from 'next/headers';
@@ -42,101 +43,82 @@ export async function POST(req: Request) {
             const { id } = body.data;
             const { status, user_email, renews_at, product_name, customer_id, product_id, variant_id } = body.data.attributes;
 
-            const endDate = new Date(renews_at);
+            const subscription_end_date = new Date(renews_at);
 
             // update tier limits in User table
-
-            if (product_name === 'Cancelflow - Plus') {
-                await db.user.update({
-                    where: {
-                        email: user_email,
-                    },
-                    data: {
-                        tier: "Plus",
-                        formLimit: "50",
-                        entryLimit: "Unlimited",
-                        tierEndDate: endDate,
-                    },
-                });
-            } else if (product_name === 'Cancelflow - Business') {
-
-                await db.user.update({
-                    where: {
-                        email: user_email,
-                    },
-                    data: {
-                        tier: "Business",
-                        formLimit: "Unlimited",
-                        entryLimit: "Unlimited",
-                        tierEndDate: endDate,
-                    },
-                });
-            }
+            const plan_updated = updateUserPlan({
+                product_name,
+                user_email,
+                subscription_end_date
+            });
 
             // Create subscription in Subscription table
-
-            await db.subscription.upsert({
-                where: {
-                    userEmail: user_email
-                },
-                update: {
-                    lemonCustomerId: customer_id,
-                    lemonProductId: product_id,
-                    lemonVariantId: variant_id,
-                    lemonSubscriptionId: Number(id),
-                    lemonSubscriptionStatus: status,
-                },
-                create: {
-                    user: {
-                        connect: {
-                            email: user_email,
-                        },
-                    },
-                    userEmail: user_email,
-                    lemonCustomerId: customer_id,
-                    lemonProductId: product_id,
-                    lemonVariantId: variant_id,
-                    lemonSubscriptionId: Number(id),
-                    lemonSubscriptionStatus: status,
-                },
+            const subscription_updated = updateUserSubcription({
+                user_email,
+                id,
+                customer_id,
+                product_id,
+                variant_id,
+                status
             });
+
+            if (!plan_updated || !subscription_updated) {
+                return new NextResponse(`Error updating user tier and limits for ${user_email}`, {
+                    status: 500,
+                })
+            }
 
             console.log("✅ Subscription created -", user_email)
 
             return new NextResponse(`Subscription plan created for ${user_email}!`, {
                 status: 200,
             })
-
         } else if (eventType === "subscription_updated") {
 
             const { id } = body.data;
-            const { user_email, status, renews_at, customer_id, product_id, variant_id } = body.data.attributes;
-            const endDate = new Date(renews_at);
+            const { user_email, status, product_name, renews_at, customer_id, product_id, variant_id } = body.data.attributes;
+            const subscription_end_date = new Date(renews_at);
 
             const user = await db.user.findUnique({
                 where: {
                     email: user_email,
                 },
             });
+
             if (!user) {
                 return new NextResponse(`User not found - ${user_email}`, {
                     status: 404,
                 })
             }
-            // update subscription data in Subscription table
 
-            await db.subscription.update({
-                where: {
-                    userEmail: user_email,
-                },
-                data: {
-                    lemonCustomerId: customer_id,
-                    lemonProductId: product_id,
-                    lemonVariantId: variant_id,
-                    lemonSubscriptionId: Number(id),
-                    lemonSubscriptionStatus: status,
-                },
+            // update tier limits in User table
+            const plan_updated = updateUserPlan({
+                product_name: product_name,
+                user_email,
+                subscription_end_date
             });
+
+            if (!plan_updated) {
+                return new NextResponse(`Error updating user tier and limits for ${user_email}`, {
+                    status: 500,
+                })
+            }
+
+            // update subscription data in Subscription table
+            const subscription_updated = updateUserSubcription({
+                user_email,
+                id,
+                customer_id,
+                product_id,
+                variant_id,
+                status
+            });
+
+            if (!subscription_updated) {
+                return new NextResponse(`Error updating subscription for ${user_email}`, {
+                    status: 500,
+                })
+            }
 
             console.log("✅ Subscription updated -", user_email)
 
@@ -144,10 +126,94 @@ export async function POST(req: Request) {
                 status: 200,
             })
 
-        } else if (eventType === "subscription_renewed") {
+        } else if (eventType === "subscription_plan_changed") {
+            // Update user tier and limits
 
+            const { user_email, renews_at, product_name } = body.data.attributes;
+            const subscription_end_date = new Date(renews_at);
+
+            const user = await db.user.findUnique({
+                where: {
+                    email: user_email,
+                },
+            });
+
+            if (!user) {
+                return new NextResponse(`User not found - ${user_email}`, {
+                    status: 404,
+                })
+            }
+
+            // update tier limits in User table
+            const plan_updated = updateUserPlan({
+                product_name,
+                user_email,
+                subscription_end_date
+            });
+
+            if (!plan_updated) {
+                return new NextResponse(`Error updating user tier and limits for ${user_email}`, {
+                    status: 500,
+                })
+            }
+
+            return new NextResponse(`Subscription plan changed for ${user_email}!`, {
+                status: 200,
+            })
+        } else if (eventType === "subscription_resumed") {
+
+            const { id } = body.data;
+            const { status, user_email, renews_at, product_name, customer_id, product_id, variant_id } = body.data.attributes;
+            const subscription_end_date = new Date(renews_at);
+
+            const user = await db.user.findUnique({
+                where: {
+                    email: user_email,
+                },
+            });
+
+            if (!user) {
+                return new NextResponse(`User not found - ${user_email}`, {
+                    status: 404,
+                })
+            }
+
+            // update tier limits in User table
+            const plan_updated = updateUserPlan({
+                product_name,
+                user_email,
+                subscription_end_date
+            });
+
+            if (!plan_updated) {
+                return new NextResponse(`Error updating user tier and limits for ${user_email}`, {
+                    status: 500,
+                })
+            }
+
+            // update subscription data in Subscription table
+            const subscription_updated = updateUserSubcription({
+                user_email,
+                id,
+                customer_id,
+                product_id,
+                variant_id,
+                status
+            });
+
+            if (!subscription_updated) {
+                return new NextResponse(`Error updating subscription for ${user_email}`, {
+                    status: 500,
+                })
+            }
+
+            console.log("✅ Subscription resumed -", user_email)
+
+            return new NextResponse(`Subscription plan resumed for ${user_email}!`, {
+                status: 200,
+            })
         } else if (eventType === "subscription_cancelled") {
-            // Handle subscription deleted
+            // Handle subscription cancelled event
             const { user_email } = body.data.attributes;
 
             const user = await db.user.findUnique({
@@ -164,14 +230,13 @@ export async function POST(req: Request) {
 
             const subscription_end_date = user.tierEndDate;
 
-            await db.subscription.update({
-                where: {
-                    userEmail: user_email,
-                },
-                data: {
-                    lemonSubscriptionStatus: "cancelled",
-                },
-            });
+            const cancel_subscription = cancelSubscription(user_email);
+
+            if (!cancel_subscription) {
+                return new NextResponse(`Error cancelling subscription for ${user_email}`, {
+                    status: 500,
+                })
+            }
 
             console.log("Subscription cancelled -", user_email)
 
@@ -179,6 +244,7 @@ export async function POST(req: Request) {
                 status: 200,
             })
         } else if (eventType === "subscription_expired") {
+            // Handle subscription expired event
             const { user_email } = body.data.attributes;
 
             const user = await db.user.findUnique({
@@ -193,23 +259,13 @@ export async function POST(req: Request) {
                 })
             }
 
-            await db.subscription.delete({
-                where: {
-                    userEmail: user_email,
-                }
-            });
+            const delete_subscription = deleteSubscription(user_email);
 
-            await db.user.update({
-                where: {
-                    email: user_email,
-                },
-                data: {
-                    tier: "Starter",
-                    formLimit: "1",
-                    entryLimit: "50",
-                    tierEndDate: new Date(Date.now()),
-                },
-            });
+            if (!delete_subscription) {
+                return new NextResponse(`Error expiring subscription for ${user_email}`, {
+                    status: 500,
+                })
+            }
 
             console.log("Subscription expired -", user_email)
 
