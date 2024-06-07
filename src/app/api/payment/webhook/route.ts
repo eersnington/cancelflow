@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import crypto from "crypto";
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server'
@@ -32,18 +33,80 @@ export async function POST(req: Request) {
 
     try {
         // Catch the event type
-        const { status, user_email } = body.data.attributes;
+        const { status } = body.data.attributes;
 
-        console.log("Event type -", eventType,)
+        console.log(body);
+
+        console.log("Event type -", eventType, status)
 
         if (eventType === "subscription_created") {
+            const { user_email, product_name, customer_id, product_id, variant_id, first_subscription_item } = body.data.attributes;
+
+            if (product_name === 'Cancelflow  - Plus') {
+                await db.user.update({
+                    where: {
+                        email: user_email,
+                    },
+                    data: {
+                        tier: "Plus",
+                        formLimit: "50",
+                        entryLimit: "Unlimited"
+                    },
+                });
+            } else if (product_name === 'Cancelflow  - Business') {
+
+                await db.user.update({
+                    where: {
+                        email: user_email,
+                    },
+                    data: {
+                        tier: "Business",
+                        formLimit: "Unlimited",
+                        entryLimit: "Unlimited"
+                    },
+                });
+            }
+
+            await db.subscription.upsert({
+                where: {
+                    lemonCustomerId: customer_id
+                },
+                update: {
+                    lemonSubscriptionStatus: status,
+                    lemonProductId: product_id,
+                    lemonVariantId: variant_id,
+                    lemonSubscriptionId: first_subscription_item.subscription_id,
+                },
+                create: {
+                    user: {
+                        connect: {
+                            email: user_email,
+                        },
+                    },
+                    lemonCustomerId: customer_id,
+                    lemonProductId: product_id,
+                    lemonVariantId: variant_id,
+                    lemonSubscriptionId: first_subscription_item.subscription_id,
+                    lemonSubscriptionStatus: status,
+                },
+
+            });
 
             console.log("Subscription created -", user_email, status)
+
+            return new NextResponse(`${user_email} - plan upgraded in Cancelflow`, {
+                status: 200,
+            })
         } else if (eventType === "subscription_updated") {
+
+            const { user_email } = body.data.attributes;
+
             // Handle subscription updated
             console.log("Subscription updated -", user_email, status)
         } else if (eventType === "subscription_cancelled") {
             // Handle subscription deleted
+            const { user_email } = body.data.attributes;
+
             console.log("Subscription cancelled -", user_email, status)
         }
 
