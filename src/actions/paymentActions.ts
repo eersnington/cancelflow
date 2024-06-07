@@ -75,12 +75,17 @@ export async function updateUserSubcription({ user_email, id, customer_id, produ
 }
 
 
-export async function deleteSubscription({ user_email }: { user_email: string }) {
+export async function expireSubscription({ user_email }: { user_email: string }) {
     try {
 
-        await db.subscription.delete({
+        console.log("Email - ", user_email)
+
+        await db.subscription.update({
             where: {
                 userEmail: user_email,
+            },
+            data: {
+                lemonSubscriptionStatus: "expired"
             }
         });
 
