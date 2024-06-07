@@ -1,4 +1,4 @@
-import { deleteSubscription, updateUserPlan, updateUserSubcription } from "@/actions/paymentActions";
+import { expireSubscription, updateUserPlan, updateUserSubcription } from "@/actions/paymentActions";
 import { db } from "@/lib/db";
 import crypto from "crypto";
 import { headers } from 'next/headers';
@@ -267,9 +267,9 @@ export async function POST(req: Request) {
                 })
             }
 
-            const delete_subscription = deleteSubscription(user_email);
+            const expire_subscription = await expireSubscription({ user_email });
 
-            if (!delete_subscription) {
+            if (!expire_subscription) {
                 return new NextResponse(`Error expiring subscription for ${user_email}`, {
                     status: 500,
                 })
