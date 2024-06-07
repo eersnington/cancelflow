@@ -12,7 +12,7 @@ export const clients = [...new Array(10)].map((client, index) => ({
 export const pricingDetails = [
   {
     name: "Starter",
-    discount: "",
+    originalPrice: "",
     price: "Free",
     isHighlighted: false,
     features: [
@@ -25,8 +25,8 @@ export const pricingDetails = [
   },
   {
     name: "Plus",
-    discount: "32$",
-    price: "$24/month",
+    originalPrice: "$28",
+    price: "$21/month",
     isHighlighted: true,
     features: [
       "Workflows: Up to 50",
@@ -38,8 +38,8 @@ export const pricingDetails = [
   },
   {
     name: "Business",
-    discount: "56$",
-    price: "$42/month",
+    originalPrice: "$44",
+    price: "$33/month",
     isHighlighted: false,
     features: [
       "Workflows: Unlimited",
