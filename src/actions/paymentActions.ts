@@ -75,23 +75,6 @@ export async function updateUserSubcription({ user_email, id, customer_id, produ
 }
 
 
-export async function cancelSubscription({ user_email }: { user_email: string }) {
-    try {
-        await db.subscription.update({
-            where: {
-                userEmail: user_email,
-            },
-            data: {
-                lemonSubscriptionStatus: "cancelled",
-            },
-        });
-        return true;
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
-}
-
 export async function deleteSubscription({ user_email }: { user_email: string }) {
     try {
 
