@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
     id: "123456",
     attributes: {
       name: "Cancelflow - Basic",
-      buy_now_url: "/billing",
+      buy_now_url: "https://cancelflow.lemonsqueezy.com",
     },
   }
 
@@ -47,13 +47,4 @@ export async function GET(req: NextRequest) {
   [data.data[1], data.data[2]] = [data.data[2], data.data[1]];
 
   return NextResponse.json(data.data)
-}
-
-export async function POST(req: NextRequest) {
-
-
-  //
-  return new NextResponse(`Checkout session`, {
-    status: 200,
-  })
 }
