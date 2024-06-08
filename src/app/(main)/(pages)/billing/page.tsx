@@ -9,41 +9,25 @@ type Props = {
 }
 
 const Billing = async (props: Props) => {
-  const { session_id } = props.searchParams ?? {
-    session_id: '',
-  }
-  if (session_id) {
-    const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-      typescript: true,
-      apiVersion: '2023-10-16',
-    })
 
-    const session = await stripe.checkout.sessions.listLineItems(session_id)
-    const user = await currentUser()
-    if (user) {
-      await db.user.update({
-        where: {
-          clerkId: user.id,
-        },
-        data: {
-          tier: session.data[0].description,
-          formLimit:
-            session.data[0].description == 'Unlimited'
-              ? 'Unlimited'
-              : session.data[0].description == 'Pro'
-                ? '100'
-                : '10',
-        },
-      })
-    }
-  }
+  const user = await currentUser()
+
+  const userPlan = await db.user.findFirst({
+    where: {
+      clerkId: user?.id,
+    },
+    select: {
+      tier: true,
+      formLimit: true,
+    },
+  })
 
   return (
     <div className="flex flex-col gap-4">
       <h1 className="sticky top-0 z-[10] flex items-center justify-between border-b bg-background/50 p-6 text-4xl backdrop-blur-lg">
         <span>Billing</span>
       </h1>
-      <BillingDashboard />
+      <BillingDashboard user={userPlan} />
     </div>
   )
 }
