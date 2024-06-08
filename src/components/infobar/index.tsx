@@ -50,7 +50,6 @@ const InfoBar = (props: Props) => {
             <a href="mailto:sreeaadhi07@gmail.com?subject=Cancelflow%20-%20[Subject]&body=I%20need%20help%20with%20...">
               <Mail />
             </a>
-
           </TooltipTrigger>
           <TooltipContent>
             <p>Support</p>
