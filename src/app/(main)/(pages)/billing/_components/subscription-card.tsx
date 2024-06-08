@@ -19,6 +19,14 @@ import { Button } from '@/components/ui/button'
 export const SubscriptionCard = ({ onPayment, products, tier }: Props) => {
   console.log(products)
 
+  if (tier === 'Starter') {
+    tier = 'Cancelflow - Basic'
+  } else if (tier === 'Plus') {
+    tier = 'Cancelflow - Plus'
+  } else if (tier === 'Business') {
+    tier = 'Cancelflow - Business'
+  }
+
   return (
     <section className="flex w-full justify-center md:flex-row flex-col gap-6">
       {products &&
@@ -40,24 +48,23 @@ export const SubscriptionCard = ({ onPayment, products, tier }: Props) => {
                     'Get started with 1 workflow and up to 50 user submissions, including customizable workflows, automated actions, and an analytics dashboard.'}
               </CardDescription>
               <div className="flex justify-between">
-                <p>
+                <p className='font-bold'>
                   {product.attributes.name == 'Cancelflow - Basic'
                     ? '1'
                     : product.attributes.name == 'Cancelflow - Plus'
                       ? '50'
                       : product.attributes.name == 'Cancelflow - Business' && 'unlimited'}{' '}
-                  workflow credits
+                  <span className='font-normal'>{"workflow credit(s)"}</span>
                 </p>
                 <p className="font-bold">
                   {product.attributes.name == 'Cancelflow - Basic'
                     ? 'Free'
                     : product.attributes.name == 'Cancelflow - Plus'
-                      ? <span className='line-through text-gray-500 font-normal'>{"28"}<span className='text-black font-normal'>21</span></span>
-                      : product.attributes.name == 'Cancelflow - Business' && 'unlimited'}{' '}
-                  /mo
+                      ? <p className=' text-black dark:text-white font-bold'><span className='line-through text-gray-500 dark:text-gray-300'>{"28 "}</span> 21 /mo</p>
+                      : product.attributes.name == 'Cancelflow - Business' && <p className=' text-black dark:text-white font-bold'><span className='line-through text-gray-500 dark:text-gray-300'>{"44 "}</span> 33 /mo</p>}{' '}
                 </p>
               </div>
-              {product.nickname == tier ? (
+              {product.attributes.name == tier ? (
                 <Button
                   disabled
                   variant="outline"
@@ -66,7 +73,7 @@ export const SubscriptionCard = ({ onPayment, products, tier }: Props) => {
                 </Button>
               ) : (
                 <Button
-                  onClick={() => onPayment(product.id)}
+                  onClick={() => onPayment(product.attributes.buy_now_url)}
                   variant="outline"
                 >
                   Purchase
