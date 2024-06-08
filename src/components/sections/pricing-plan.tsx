@@ -35,7 +35,7 @@ export default function PricingPlan() {
                             <h1 className="text-xl font-bold text-black dark:text-white "
                             >
                                 {plan.name}
-                                <h2 className="text-6xl ">{plan.price}</h2>
+                                <h2 className="text-6xl "><span className="text-6xl text-orange-300 line-through">{plan.originalPrice + " "}</span>{plan.price}<span className="text-2xl font-light">{" /mo"}</span></h2>
                             </h1>
                         </CardHeader>
                         <CardContent className="text-slate-800 text-sm max-w-sm mt-2 dark:text-neutral-300">
