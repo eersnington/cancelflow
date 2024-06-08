@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button'
 
 export const SubscriptionCard = ({ onPayment, products, tier }: Props) => {
   console.log(products)
+
   return (
     <section className="flex w-full justify-center md:flex-row flex-col gap-6">
       {products &&
@@ -27,32 +28,32 @@ export const SubscriptionCard = ({ onPayment, products, tier }: Props) => {
             key={product.id}
           >
             <CardHeader>
-              <CardTitle>{product.nickname}</CardTitle>
+              <CardTitle>{product.attributes.name}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-5">
               <CardDescription>
-                {product.nickname == 'Unlimited'
-                  ? 'Enjoy a monthly torrent of credits flooding your account, empowering you to tackle even the most ambitious automation tasks effortlessly.'
-                  : product.nickname == 'Pro'
-                  ? 'Experience a monthly surge of credits to supercharge your automation efforts. Ideal for small to medium-sized projects seeking consistent support.'
-                  : product.nickname == 'Free' &&
-                    "Get a monthly wave of credits to automate your tasks with ease. Perfect for starters looking to dip their toes into Fuzzie's automation capabilities."}
+                {product.attributes.name === 'Cancelflow - Business'
+                  ? 'Unlock unlimited workflows and user submissions with advanced features like customizable workflows, automated actions, and comprehensive analytics.'
+                  : product.attributes.name === 'Cancelflow - Plus'
+                    ? 'Scale up with up to 50 workflows, unlimited user submissions, and access to all features including customizable workflows, automated actions, and analytics.'
+                    : product.attributes.name === 'Cancelflow - Basic' &&
+                    'Get started with 1 workflow and up to 50 user submissions, including customizable workflows, automated actions, and an analytics dashboard.'}
               </CardDescription>
               <div className="flex justify-between">
                 <p>
-                  {product.nickname == 'Free'
-                    ? '10'
-                    : product.nickname == 'Pro'
-                    ? '100'
-                    : product.nickname == 'Unlimited' && 'unlimited'}{' '}
-                  credits
+                  {product.attributes.name == 'Cancelflow - Basic'
+                    ? '1'
+                    : product.attributes.name == 'Cancelflow - Plus'
+                      ? '50'
+                      : product.attributes.name == 'Cancelflow - Business' && 'unlimited'}{' '}
+                  workflow credits
                 </p>
                 <p className="font-bold">
-                  {product.nickname == 'Free'
+                  {product.attributes.name == 'Cancelflow - Basic'
                     ? 'Free'
-                    : product.nickname == 'Pro'
-                    ? '29.99'
-                    : product.nickname == 'Unlimited' && '99.99'}
+                    : product.attributes.name == 'Cancelflow - Plus'
+                      ? <span className='line-through text-gray-500 font-normal'>{"28"}<span className='text-black font-normal'>21</span></span>
+                      : product.attributes.name == 'Cancelflow - Business' && 'unlimited'}{' '}
                   /mo
                 </p>
               </div>
