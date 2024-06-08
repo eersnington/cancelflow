@@ -10,24 +10,15 @@ type Props = {
 
 const Billing = async (props: Props) => {
 
-  const user = await currentUser()
-
-  const userPlan = await db.user.findFirst({
-    where: {
-      clerkId: user?.id,
-    },
-    select: {
-      tier: true,
-      formLimit: true,
-    },
-  })
+  const user = await currentUser();
+  const email = user?.emailAddresses[0].emailAddress || '';
 
   return (
     <div className="flex flex-col gap-4">
       <h1 className="sticky top-0 z-[10] flex items-center justify-between border-b bg-background/50 p-6 text-4xl backdrop-blur-lg">
         <span>Billing</span>
       </h1>
-      <BillingDashboard user={userPlan} />
+      <BillingDashboard email={email} />
     </div>
   )
 }
