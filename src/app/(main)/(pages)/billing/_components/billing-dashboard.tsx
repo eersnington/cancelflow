@@ -6,12 +6,15 @@ import React, { useEffect, useState } from 'react'
 import { SubscriptionCard } from './subscription-card'
 import CreditTracker from './creadits-tracker'
 
-type Props = {}
+type Props = {
+  user: any
+}
 
 const BillingDashboard = (props: Props) => {
   const { credits, tier } = useBilling()
   const [stripeProducts, setStripeProducts] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const [userTier, setUserTier] = useState<string>('Starter')
 
   const onStripeProducts = async () => {
     setLoading(true)
@@ -25,6 +28,12 @@ const BillingDashboard = (props: Props) => {
   useEffect(() => {
     onStripeProducts()
   }, [])
+
+  if (props.user.tier === "Plus") {
+    setUserTier("Cancelflow - Plus")
+  } else if (props.user.tier === "Business") {
+    setUserTier("Cancelflow - Business")
+  }
 
   const onPayment = async (id: string) => {
     const { data } = await axios.post(
@@ -43,11 +52,11 @@ const BillingDashboard = (props: Props) => {
 
   return (
     <>
-      {/* {loading ? (
+      {loading ? (
         <div className="absolute flex h-full w-full items-center justify-center">
           <svg
             aria-hidden="true"
-            className="inline h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+            className="inline h-8 w-8 animate-spin fill-blue-600 text-gray-500 dark:text-gray-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -62,21 +71,21 @@ const BillingDashboard = (props: Props) => {
             />
           </svg>
         </div>
-      ) : ( */}
+      ) : (
         <>
           <div className="flex gap-5 p-6">
             <SubscriptionCard
               onPayment={onPayment}
-              tier={tier}
+              tier={userTier}
               products={stripeProducts}
             />
           </div>
           <CreditTracker
-            tier={tier}
+            tier={userTier}
             credits={parseInt(credits)}
           />
         </>
-      {/* )} */}
+      )}
     </>
   )
 }
