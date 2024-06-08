@@ -4,50 +4,36 @@ import { useBilling } from '@/providers/billing-provider'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { SubscriptionCard } from './subscription-card'
-import CreditTracker from './creadits-tracker'
+import CreditTracker from './credits-tracker'
 
 type Props = {
-  user: any
+  email: string
 }
 
 const BillingDashboard = (props: Props) => {
   const { credits, tier } = useBilling()
-  const [stripeProducts, setStripeProducts] = useState<any>([])
+  const [lemonSqueezyProducts, setLemonSqueezyProducts] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
-  const [userTier, setUserTier] = useState<string>('Starter')
 
-  const onStripeProducts = async () => {
+  const onLemonSqueezyProducts = async () => {
     setLoading(true)
     const { data } = await axios.get('/api/payment')
     if (data) {
-      setStripeProducts(data)
+      setLemonSqueezyProducts(data)
       setLoading(false)
     }
   }
 
   useEffect(() => {
-    onStripeProducts()
+    onLemonSqueezyProducts()
   }, [])
 
-  if (props.user.tier === "Plus") {
-    setUserTier("Cancelflow - Plus")
-  } else if (props.user.tier === "Business") {
-    setUserTier("Cancelflow - Business")
-  }
+  const onPayment = async (url: string) => {
 
-  const onPayment = async (id: string) => {
-    const { data } = await axios.post(
-      '/api/payment',
-      {
-        priceId: id,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-    window.location.assign(data)
+    if (url != "https://cancelflow.lemonsqueezy.com") {
+      url = url + `?checkout[email]=${props.email}&checkout[discount_code]=PHLAUNCH`
+    }
+    window.location.assign(url)
   }
 
   return (
@@ -76,12 +62,12 @@ const BillingDashboard = (props: Props) => {
           <div className="flex gap-5 p-6">
             <SubscriptionCard
               onPayment={onPayment}
-              tier={userTier}
-              products={stripeProducts}
+              tier={tier}
+              products={lemonSqueezyProducts}
             />
           </div>
           <CreditTracker
-            tier={userTier}
+            tier={tier}
             credits={parseInt(credits)}
           />
         </>
