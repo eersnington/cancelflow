@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { ModeToggle } from '../global/mode-toggle'
-import { Book, Headphones, Search } from 'lucide-react'
+import { Book, Mail, Search } from 'lucide-react'
 import Templates from '../icons/cloud_download'
 import { Input } from '@/components/ui/input'
 
@@ -35,39 +35,37 @@ const InfoBar = (props: Props) => {
   return (
     <div className="flex flex-row justify-end gap-6 items-center px-4 py-4 w-full dark:bg-black ">
       <span className="flex items-center gap-2 font-bold">
-        <p className="text-sm font-light text-black">Workflow Credits</p>
+        <p className="text-sm font-light text-black">Workflow Credits Remaining</p>
         {tier == 'Unlimited' ? (
-          <span>Unlimited</span>
+          <span></span>
         ) : (
           <span>
-            {credits}/{tier == 'Starter' ? '10' : tier == 'Plus' ? '100' : tier == 'Business' && 'Unlimited'}
+            {credits}/{tier == 'Starter' ? '1' : tier == 'Plus' ? '50' : tier == 'Business' && 'Unlimited'}
           </span>
         )}
-      </span>
-      <span className="flex items-center rounded-full bg-muted px-4">
-        <Search />
-        <Input
-          placeholder="Quick Search"
-          className="border-none bg-transparent"
-        />
       </span>
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger>
-            <Headphones />
+            <a href="mailto:sreeaadhi07@gmail.com?subject=Cancelflow%20-%20[Subject]&body=I%20need%20help%20with%20...">
+              <Mail />
+            </a>
+
           </TooltipTrigger>
           <TooltipContent>
-            <p>Contact Support</p>
+            <p>Support</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger>
-            <Book />
+            <a href="https://insigh.to/b/cancelflow" target="_blank">
+              <Book />
+            </a>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Guide</p>
+            <p>Request a feature</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
