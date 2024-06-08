@@ -35,7 +35,7 @@ const InfoBar = (props: Props) => {
   return (
     <div className="flex flex-row justify-end gap-6 items-center px-4 py-4 w-full dark:bg-black ">
       <span className="flex items-center gap-2 font-bold">
-        <p className="text-sm font-light text-black">Workflow Credits Remaining</p>
+        <p className="text-sm font-light text-black dark:text-white">Workflow Credits Remaining</p>
         {tier == 'Unlimited' ? (
           <span></span>
         ) : (
@@ -47,12 +47,12 @@ const InfoBar = (props: Props) => {
       <TooltipProvider>
         <Tooltip delayDuration={0}>
           <TooltipTrigger>
-            <a href="mailto:sreeaadhi07@gmail.com?subject=Cancelflow%20-%20[Subject]&body=I%20need%20help%20with%20...">
+            <a href="mailto:sreeaadhi07@gmail.com?subject=Cancelflow%20-%20[Subject...]&body=I%20need%20help%20with%20...">
               <Mail />
             </a>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Support</p>
+            <p>Contact Support</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
