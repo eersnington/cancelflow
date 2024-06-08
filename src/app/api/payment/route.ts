@@ -1,36 +1,44 @@
 import { NextResponse, NextRequest } from 'next/server'
-import Stripe from 'stripe'
+import { lemonSqueezySetup } from '@lemonsqueezy/lemonsqueezy.js';
+
+import { listProducts } from '@lemonsqueezy/lemonsqueezy.js';
 
 export async function GET(req: NextRequest) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-    typescript: true,
-    apiVersion: '2023-10-16',
-  })
 
-  const products = await stripe.prices.list({
-    limit: 3,
-  })
+  const lsApiKey = process.env.LEMONSQUEEZY_API_KEY;
+  const lsStoreId = process.env.LEMONSQUEEZY_STORE_ID;
 
-  return NextResponse.json(products.data)
+  if (!lsApiKey) {
+    throw new Error('Please add LEMONSQUEEZY_API_KEY to your environment variables');
+  }
+
+  if (!lsStoreId) {
+    throw new Error('Please add LEMONSQUEEZY_STORE_ID to your environment variables');
+  }
+
+  lemonSqueezySetup({
+    apiKey: lsApiKey,
+    onError(error) {
+      console.log(error);
+    },
+  });
+
+  const { statusCode, error, data } = await listProducts({ filter: { storeId: lsStoreId } });
+
+  if (error) {
+    return new NextResponse(`Error in fetching products...`, {
+      status: 500,
+    })
+  }
+
+  return NextResponse.json(data.data)
 }
 
 export async function POST(req: NextRequest) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET!, {
-    typescript: true,
-    apiVersion: '2023-10-16',
+
+  
+  //
+  return new NextResponse(`Checkout session`, {
+    status: 200,
   })
-  const data = await req.json()
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price: data.priceId,
-        quantity: 1,
-      },
-    ],
-    mode: 'subscription',
-    success_url:
-      'https://localhost:3000/billing?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'https://localhost:3000/billing',
-  })
-  return NextResponse.json(session.url)
 }
