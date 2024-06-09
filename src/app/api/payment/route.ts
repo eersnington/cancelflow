@@ -1,3 +1,5 @@
+export const maxDuration = 20; // This function can run for a maximum of 5 seconds
+
 import { NextResponse, NextRequest } from 'next/server'
 import { lemonSqueezySetup } from '@lemonsqueezy/lemonsqueezy.js';
 
