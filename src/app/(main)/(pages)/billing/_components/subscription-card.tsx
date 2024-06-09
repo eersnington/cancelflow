@@ -60,8 +60,8 @@ export const SubscriptionCard = ({ onPayment, products, tier }: Props) => {
                   {product.attributes.name == 'Cancelflow - Basic'
                     ? 'Free'
                     : product.attributes.name == 'Cancelflow - Plus'
-                      ? <p className=' text-black dark:text-white font-bold'><span className='line-through text-gray-500 dark:text-gray-300'>{"28 "}</span> 21 /mo</p>
-                      : product.attributes.name == 'Cancelflow - Business' && <p className=' text-black dark:text-white font-bold'><span className='line-through text-gray-500 dark:text-gray-300'>{"44 "}</span> 33 /mo</p>}{' '}
+                      ? <p className=' text-black dark:text-white font-bold'><span className='line-through text-gray-500 dark:text-gray-300'>{"24 "}</span> 18 /mo</p>
+                      : product.attributes.name == 'Cancelflow - Business' && <p className=' text-black dark:text-white font-bold'><span className='line-through text-gray-500 dark:text-gray-300'>{"36 "}</span> 27 /mo</p>}{' '}
                 </p>
               </div>
               {product.attributes.name == tier ? (
