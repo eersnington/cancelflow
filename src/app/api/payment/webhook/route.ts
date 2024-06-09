@@ -1,3 +1,5 @@
+export const maxDuration = 20; // This function can run for a maximum of 5 seconds
+
 import { expireSubscription, updateUserPlan, updateUserSubcription } from "@/actions/paymentActions";
 import { db } from "@/lib/db";
 import crypto from "crypto";
