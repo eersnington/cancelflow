@@ -25,8 +25,8 @@ export const pricingDetails = [
   },
   {
     name: "Plus",
-    originalPrice: "$28",
-    price: "$21",
+    originalPrice: "$24",
+    price: "$18",
     isHighlighted: true,
     features: [
       "Workflows: Up to 50",
@@ -38,8 +38,8 @@ export const pricingDetails = [
   },
   {
     name: "Business",
-    originalPrice: "$44",
-    price: "$33",
+    originalPrice: "$36",
+    price: "$27",
     isHighlighted: false,
     features: [
       "Workflows: Unlimited",
