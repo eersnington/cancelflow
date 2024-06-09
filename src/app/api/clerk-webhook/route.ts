@@ -1,3 +1,5 @@
+export const maxDuration = 20; // This function can run for a maximum of 5 seconds
+
 import { db } from '@/lib/db'
 import { Webhook } from 'svix'
 import { headers } from 'next/headers';
