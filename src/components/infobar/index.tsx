@@ -1,10 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
-import { ModeToggle } from '../global/mode-toggle'
-import { Book, Mail, Search } from 'lucide-react'
-import Templates from '../icons/cloud_download'
-import { Input } from '@/components/ui/input'
-
+import { Book, Mail } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
