@@ -25,14 +25,14 @@ export type Connection = {
 }
 
 export type EditorCanvasTypes =
+  | 'Input'
+  | 'Radio'
+  | 'Checkbox'
+  | 'Label'
   | 'Email'
   | 'Condition'
   | 'AI'
-  | 'Slack'
-  | 'Google Drive'
-  | 'Notion'
   | 'Custom Webhook'
-  | 'Google Calendar'
   | 'Trigger'
   | 'Action'
   | 'Wait'
