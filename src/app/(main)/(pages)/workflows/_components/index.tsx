@@ -1,7 +1,7 @@
 import React from 'react'
 import Workflow from './workflow'
 import { onGetWorkflows } from '../_actions/workflow-connections'
-import MoreCredits from './more-creadits'
+import MoreCredits from './more-credits'
 
 type Props = {}
 
