@@ -17,7 +17,7 @@ const WorkflowButton = (props: Props) => {
     setOpen(
       <CustomModal
         title="Create a Cancellation Workflow"
-        subheading="Cancellation workflows reduces churn by automating certain tasks when a user tries to cancel their subscription."
+        subheading="Cancellation workflows reduces churn by performing specified actions when a user tries to cancel their subscription."
       >
         <Workflowform />
       </CustomModal>
