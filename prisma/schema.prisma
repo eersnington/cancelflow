@@ -26,6 +26,7 @@ model User {
 
   subscriptions Subscription[]
   workflows     Workflow[]
+  Workflows     Workflows[]
 }
 
 model Subscription {
@@ -54,4 +55,29 @@ model Workflow {
   updatedAt   DateTime @updatedAt
   flowPath    String?
   user        User     @relation(fields: [userId], references: [clerkId])
+}
+
+model Workflows {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  publish   Boolean? @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  shareUrl  String
+
+  userId              String
+  user                User                  @relation(fields: [userId], references: [clerkId])
+  WorkflowSubmissions WorkflowSubmissions[]
+}
+
+model WorkflowSubmissions {
+  id         Int      @id @default(autoincrement())
+  workflowId String
+  data       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  Workflows Workflows? @relation(fields: [workflowId], references: [id])
 }
