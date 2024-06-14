@@ -18,16 +18,40 @@ import {
     FormItem,
     FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
+
+import { Loader2, PlusIcon } from 'lucide-react';
+import { formSchema, formSchemaType } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from 'postcss';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useRouter } from 'next/navigation';
+import { CreateForm } from '@/actions/form';
 
-export default function CreateForm() {
+export default function CreateFormBtn() {
+    const router = useRouter();
 
     const form = useForm<formSchemaType>({
         resolver: zodResolver(formSchema),
     });
+
+    async function onSubmit(values: formSchemaType) {
+        try {
+            const formId = await CreateForm(values);
+            toast({
+                title: "Success",
+                description: "Form created successfully",
+            });
+            router.push(`/builder/${formId}`);
+        } catch (error) {
+            toast({
+                title: "Error",
+                description: "Something went wrong, please try again later",
+                variant: "destructive",
+            });
+        }
+    }
 
     return (
         <Dialog>
@@ -36,7 +60,7 @@ export default function CreateForm() {
                     variant={"outline"}
                     className="group border border-primary/20 h-[190px] items-center justify-center flex flex-col hover:border-primary hover:cursor-pointer border-dashed gap-4"
                 >
-                    <BsFileEarmarkPlus className="h-8 w-8 text-muted-foreground group-hover:text-primary" />
+                    <PlusIcon className="h-8 w-8 text-muted-foreground group-hover:text-primary" />
                     <p className="font-bold text-xl text-muted-foreground group-hover:text-primary">Create new form</p>
                 </Button>
             </DialogTrigger>
@@ -62,12 +86,12 @@ export default function CreateForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="description"
+                            name="website"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Description</FormLabel>
+                                    <FormLabel>Website Link</FormLabel>
                                     <FormControl>
-                                        <Textarea rows={5} {...field} />
+                                        <Input {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -78,7 +102,7 @@ export default function CreateForm() {
                 <DialogFooter>
                     <Button onClick={form.handleSubmit(onSubmit)} disabled={form.formState.isSubmitting} className="w-full mt-4">
                         {!form.formState.isSubmitting && <span>Save</span>}
-                        {form.formState.isSubmitting && <ImSpinner2 className="animate-spin" />}
+                        {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
                     </Button>
                 </DialogFooter>
             </DialogContent>
