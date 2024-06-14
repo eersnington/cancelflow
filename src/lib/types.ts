@@ -12,6 +12,13 @@ export const WorkflowFormSchema = z.object({
   description: z.string().min(1, 'Required'),
 })
 
+export const formSchema = z.object({
+  name: z.string().min(4),
+  website: z.string().url(),
+});
+
+export type formSchemaType = z.infer<typeof formSchema>;
+
 export type ConnectionTypes = 'Google Drive' | 'Notion' | 'Slack' | 'Discord'
 
 export type Connection = {
