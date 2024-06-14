@@ -12,9 +12,15 @@ export const WorkflowFormSchema = z.object({
   description: z.string().min(1, 'Required'),
 })
 
+<<<<<<< Updated upstream
 export const formSchema = z.object({
   name: z.string().min(4),
   website: z.string().url(),
+=======
+export const CreateFormSchema = z.object({
+  name: z.string().min(4),
+  website: z.string().optional(),
+>>>>>>> Stashed changes
 });
 
 export type formSchemaType = z.infer<typeof formSchema>;
