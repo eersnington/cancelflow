@@ -37,11 +37,14 @@ export default function CreateFormBtn() {
     });
 
     async function onSubmit(values: formSchemaType) {
+        console.log("submitted form")
         try {
             const formId = await CreateForm(values);
+            console.log("form created", formId)
             toast({
                 title: "Success",
                 description: "Form created successfully",
+                variant: "success",
             });
             router.push(`/builder/${formId}`);
         } catch (error) {
