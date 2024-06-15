@@ -1,14 +1,19 @@
-import { db } from "@/lib/db";
+"use server";
+
+import { db } from '@/lib/db'
+import { currentUser } from '@clerk/nextjs'
 import { formSchemaType, formSchema } from "@/lib/types";
-import { currentUser } from "@clerk/nextjs";
 
 
 export async function CreateForm(data: formSchemaType) {
+
     const validation = formSchema.safeParse(data);
+
     if (!validation.success) {
         throw new Error("form not valid");
     }
 
+    // Get the Backend API User object when you need access to the user's information
     const user = await currentUser();
     if (!user) {
         throw new Error("user not found");
@@ -28,6 +33,8 @@ export async function CreateForm(data: formSchemaType) {
     if (!form) {
         throw new Error("something went wrong");
     }
+
+    console.log("form created", form.id);
 
     return form.id;
 }
