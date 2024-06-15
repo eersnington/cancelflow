@@ -54,3 +54,18 @@ export async function GetForms() {
         },
     });
 }
+
+
+export async function GetFormById(id: string) {
+    const user = await currentUser();
+    if (!user) {
+        throw new Error("user not found");
+    }
+
+    return await db.workflows.findFirst({
+        where: {
+            id: id,
+            userId: user.id,
+        },
+    });
+}
