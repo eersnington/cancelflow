@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { DragEndEvent, useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { cn } from "@/lib/utils";
+import DesignerSidebar from "./designer-sidebar";
 
 function Designer() {
 
@@ -23,7 +24,7 @@ function Designer() {
                     </p>
                 </div>
             </div>
-            
+            <DesignerSidebar />
         </div>
     );
 }
