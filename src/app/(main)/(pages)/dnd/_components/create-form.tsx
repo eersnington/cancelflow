@@ -21,7 +21,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 
-import { Loader2, PlusIcon } from 'lucide-react';
+import { Loader2, FilePlus } from 'lucide-react';
 import { formSchema, formSchemaType } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -29,7 +29,7 @@ import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import { CreateForm } from '@/actions/form';
 
-export default function CreateFormBtn() {
+const CreateFormBtn = () => {
     const router = useRouter();
 
     const form = useForm<formSchemaType>({
@@ -40,7 +40,6 @@ export default function CreateFormBtn() {
         console.log("submitted form")
         try {
             const formId = await CreateForm(values);
-            console.log("form created", formId)
             toast({
                 title: "Success",
                 description: "Form created successfully",
@@ -63,7 +62,7 @@ export default function CreateFormBtn() {
                     variant={"outline"}
                     className="group border border-primary/20 h-[190px] items-center justify-center flex flex-col hover:border-primary hover:cursor-pointer border-dashed gap-4"
                 >
-                    <PlusIcon className="h-8 w-8 text-muted-foreground group-hover:text-primary" />
+                    <FilePlus className="h-8 w-8 text-muted-foreground group-hover:text-primary" />
                     <p className="font-bold text-xl text-muted-foreground group-hover:text-primary">Create new form</p>
                 </Button>
             </DialogTrigger>
@@ -112,3 +111,5 @@ export default function CreateFormBtn() {
         </Dialog>
     );
 }
+
+export default CreateFormBtn;
