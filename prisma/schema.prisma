@@ -67,6 +67,9 @@ model Workflows {
   updatedAt DateTime @updatedAt
   shareUrl  String
 
+  visits      Int @default(0)
+  submissions Int @default(0)
+
   userId              String
   user                User                  @relation(fields: [userId], references: [clerkId])
   WorkflowSubmissions WorkflowSubmissions[]
