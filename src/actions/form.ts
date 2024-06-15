@@ -38,3 +38,19 @@ export async function CreateForm(data: formSchemaType) {
 
     return form.id;
 }
+
+export async function GetForms() {
+    const user = await currentUser();
+    if (!user) {
+        throw new Error("user not found");
+    }
+
+    return await db.workflows.findMany({
+        where: {
+            userId: user.id,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+}
