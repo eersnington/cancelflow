@@ -16,7 +16,7 @@ export default function Error({
 
     return (
         <div className="flex w-full h-screen flex-col items-center justify-center gap-4">
-            <h2 className="text-destructive text-4xl">Something went wrong!</h2>
+            <h2 className="text-4xl">Something went wrong!</h2>
             <Button onClick={reset}>
                 Try again
             </Button>
