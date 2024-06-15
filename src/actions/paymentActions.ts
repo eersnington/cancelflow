@@ -1,3 +1,5 @@
+"use server";
+
 import { db } from "@/lib/db";
 import { planUpdateAction, subscriptionUpdateAction } from "@/lib/types";
 
