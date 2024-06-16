@@ -1,3 +1,5 @@
+import { TextFieldFormElement } from "@/components/fields/text-field";
+
 export type ElementsType = "TextField";
 
 export type FormElement = {
@@ -14,6 +16,5 @@ export type FormElementsType = {
 };
 
 export const FormElements: FormElementsType = {
-    TextField: {
-
-    }; 
+    TextField: TextFieldFormElement,
+}; 
