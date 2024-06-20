@@ -5,9 +5,22 @@ export type ElementsType = "TextField";
 export type FormElement = {
     type: ElementsType;
 
+    constructor: (id: string) => FormElementInstance;
+
+    designerBtnElement: {
+        icon: React.ReactElement;
+        label: string;
+    }
+
     designerComponent: React.FC;
     formComponent: React.FC;
     propertiesComponent: React.FC;
+};
+
+export type FormElementInstance = {
+    id: string;
+    type: ElementsType;
+    extraAttributes?: Record<string, any>;
 };
 
 
