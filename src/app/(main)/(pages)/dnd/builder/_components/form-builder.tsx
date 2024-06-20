@@ -22,7 +22,7 @@ function FormBuilder({ form }: { form: Workflows }) {
                         <Button className="btn btn-secondary bg-green-500 hover:bg-green-700 dark:hover:bg-green-300"><BookCheckIcon className="mr-2" />Publish</Button>
                     </div>
                 </nav>
-                <div className="h-[50rem] w-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center">
+                <div className="w-full h-screen dark:bg-gray-900 bg-gray-50 dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center">
                     {/* Radial gradient for the container to give a faded look */}
                     {/* <p className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8">
                     Backgrounds
