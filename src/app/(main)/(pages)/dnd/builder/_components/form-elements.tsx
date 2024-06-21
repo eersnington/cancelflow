@@ -8,7 +8,7 @@ export type FormElement = {
     constructor: (id: string) => FormElementInstance;
 
     designerBtnElement: {
-        icon: React.ReactElement;
+        icon: React.ElementType;
         label: string;
     }
 
