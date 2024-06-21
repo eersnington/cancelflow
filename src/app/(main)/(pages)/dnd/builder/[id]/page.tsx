@@ -13,8 +13,6 @@ export default async function Page({ params, }: {
         throw new Error("form not found");
     }
 
-    console.log(form);
-
     return (
         <FormBuilder form={form} />
     );
