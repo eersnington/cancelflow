@@ -5,6 +5,7 @@ import { Workflows } from "@prisma/client";
 import { ViewIcon, SaveIcon, BookCheckIcon } from "lucide-react";
 import Designer from "./designer";
 import { DndContext } from "@dnd-kit/core";
+import DragOverlayWrapper from "./drag-overlay-wrapper";
 
 
 function FormBuilder({ form }: { form: Workflows }) {
@@ -30,6 +31,7 @@ function FormBuilder({ form }: { form: Workflows }) {
                     <Designer />
                 </div>
             </main>
+            <DragOverlayWrapper />
         </DndContext>
     );
 }
